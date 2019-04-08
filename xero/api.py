@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from .filesmanager import FilesManager
 from .payrollmanager import PayrollManager
 from .manager import Manager
+from .trackingcategoryoptionsmanager import TrackingCategoryOptionsManager
 
 
 class Xero(object):
@@ -50,6 +51,22 @@ class Xero(object):
         setattr(self, "payrollAPI", Payroll(credentials, unit_price_4dps,
                                             user_agent))
 
+        self.credentials = credentials
+        self.trackingcategorydict = {}
+        #self.__populate_tracking_categories()
+
+    def populate_tracking_categories(self):
+        """
+        If you wish to set new tracking category options you'll need to call this method to pre-populate the options 
+        """
+        categories = self.trackingcategories.all()
+
+        self.trackingCategoryNames = {x['Name']: x['TrackingCategoryID'] for x in categories}
+        for name, tracking_category_id in self.trackingCategoryNames.items():
+            #setattr(self, "TC%s" % name, TrackingCategoryOptions(self.credentials, tracking_category_id))
+            self.trackingcategorydict["name"] = TrackingCategoryOptions(self.credentials, tracking_category_id)
+        return categories
+
 
 class Files(object):
     """An ORM-like interface to the Xero Files API"""
@@ -87,3 +104,15 @@ class Payroll(object):
         for name in self.OBJECT_LIST:
             setattr(self, name.lower(), PayrollManager(name, credentials, unit_price_4dps,
                                                        user_agent))
+
+class TrackingCategoryOptions(object):
+    """An ORM-like interface to the Xero Tracking Category API"""
+
+    OBJECT_LIST = (
+        "Options",
+    )
+
+    def __init__(self, credentials, tracking_category_id):
+        for name in self.OBJECT_LIST:
+            setattr(self, name.lower(), TrackingCategoryOptionsManager(name, credentials, tracking_category_id))
+

@@ -31,6 +31,7 @@ OBJECT_NAMES = {
     "Items": "Item",
     "Journals": "Journal",
     "ManualJournals": "ManualJournal",
+    "Options": "Option", # TrackingCategoryOptions
     "Organisation": "Organisation",
     "Overpayments": "Overpayment",
     "Payments": "Payment",
