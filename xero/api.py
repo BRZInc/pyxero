@@ -64,7 +64,7 @@ class Xero(object):
         self.trackingCategoryNames = {x['Name']: x['TrackingCategoryID'] for x in categories}
         for name, tracking_category_id in self.trackingCategoryNames.items():
             #setattr(self, "TC%s" % name, TrackingCategoryOptions(self.credentials, tracking_category_id))
-            self.trackingcategorydict["name"] = TrackingCategoryOptions(self.credentials, tracking_category_id)
+            self.trackingcategorydict[name] = TrackingCategoryOptions(self.credentials, tracking_category_id)
         return categories
 
 
